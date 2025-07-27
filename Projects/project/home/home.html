@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home Page with Background Slideshow</title>
+  <style>
+     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      height: 100%;
+    }
+    .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-buttons button {
+  background: white;
+  color: #333;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-buttons button:hover,
+.active-button {
+  background: #2980b9;
+  color: white;
+}
+
+.search-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.search-bar button {
+  background: #2980b9;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Push down content below sticky navbar */
+body {
+  padding-top: 80px;
+}
+    .section {
+  display: none;
+  padding: 40px 30px;
+}
+
+.section.active {
+  display: block;
+}
+.games-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.game-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-card img {
+  width: 100%;
+  border-radius: 8px;
+  height: 280px;
+  object-fit: cover;
+}
+
+.game-card h3 {
+  margin-top: 12px;
+  font-size: 20px;
+  color: #333;
+}
+
+.game-card p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.price-button-wrap {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.price-btn {
+  background-color: #2ecc71;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.price-btn:hover {
+  background-color: #27ae60;
+}
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .image-grid div {
+      height: 250px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+    }
+
+    .games-dashboard .card {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .movies-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.movie-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 8px;
+  height: 280px;
+  object-fit: cover;
+}
+
+.movie-card h3 {
+  margin-top: 12px;
+  font-size: 20px;
+  color: #333;
+}
+
+.movie-card p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+.laptop-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.laptop-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.laptop-card img {
+  width: 100%;
+  max-width: 400px;
+  height: 240px;         /* ✅ Fixed height for all */
+  object-fit: cover;     /* ✅ Crop image to fill box */
+  border-radius: 8px;
+}
+
+.laptop-card h3 {
+  margin-top: 12px;
+  font-size: 20px;
+  color: #333;
+}
+
+.laptop-card p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.tv-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tv-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tv-card img {
+  width: 100%;
+  max-width: 400px;
+  height: 240px; /* ✅ Same height for all TV images */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.tv-card h3 {
+  margin-top: 12px;
+  font-size: 20px;
+  color: #333;
+}
+
+.tv-card p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+.dashboard-section {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.account-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.account-card {
+  background-color: #f2f2f2;
+  padding: 20px 25px;
+  width: 280px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.account-btn {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.account-btn:hover {
+  background-color: #0056b3;
+}
+.tag {
+  background-color: #ccc;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.delivered { background-color: #2ecc71; }
+.shipped { background-color: #f39c12; }
+.pending { background-color: #e74c3c; }
+
+.logout {
+  background-color: #e74c3c;
+}
+
+.logout:hover {
+  background-color: #c0392b;
+}
+
+
+    .deal-banner {
+  text-align: center;
+  background: #f9f9f9;
+  padding: 20px;
+  margin-top: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.deal-banner h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.deal-banner p {
+  font-size: 16px;
+  color: #444;
+}
+
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <div class="nav-left">
+  <div class="nav-buttons">
+    <button id="homeBtn" onclick="showTab('home', this)">Home</button>
+    <button onclick="showTab('games', this)">Games</button>
+    <button onclick="showTab('movies', this)">Movies</button>
+    <button onclick="showTab('laptop', this)">Laptop</button>
+    <button onclick="showTab('tv', this)">TV</button>
+    <button onclick="showTab('account', this)">Account</button>
+  </div>
+</div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search: home, games, tv, laptop, account">
+      <button>Search</button>
+    </div>
+  </div>
+
+   
+<section id="home" class="section active">
+  <h2 style="text-align:center; margin-bottom: 20px;">🏠 Welcome to the Home Page</h2>
+  <p style="text-align:center;">Explore amazing deals on electronics, movies, games, and more!</p>
+  <div id="image-box" class="image-box">
+    <div class="image-grid">
+      <div style="background-image: url('https://5.imimg.com/data5/BO/MV/GN/SELLER-5541525/led-tv.png');"></div> <!-- TV -->
+      <div style="background-image: url('https://tse3.mm.bing.net/th/id/OIP.cnDid7r7Hrwh53nUO0SSAwHaEo?pid=Api&P=0&h=180');"></div> <!-- Laptop -->
+      <div style="background-image: url('\https://tse2.mm.bing.net/th/id/OIP.xA6qvOsheZI_zgky11mbpQHaEK?pid=Api&P=0&h=180');"></div> <!-- Games -->
+      <div style="background-image: url('https://tse1.mm.bing.net/th/id/OIP.0u2ynz-XDDaq3suwHtC7eQHaEK?pid=Api&P=0&h=180');"></div> <!-- Movies -->
+    </div>
+  </div>
+   <div class="deal-banner">
+  <h2>Explore Our Best Deals</h2>
+  <p>Find amazing offers on TVs, Laptops, Games and Movies. Choose from top brands at unbeatable prices!</p>
+</div>
+</section>
+
+  <!-- GAMES DASHBOARD -->
+<!-- GAMES DASHBOARD -->
+<section id="games" class="section">
+  <h2 style="text-align:center; margin-bottom: 20px;">🎮 Popular Games</h2>
+
+  <div class="games-column">
+    <div class="game-card">
+     <a href="https://www.playstation.com/en-us/god-of-war/" target="_blank">
+     <img src="https://images3.alphacoders.com/925/thumbbig-925329.webp" alt="God of War">
+   </a>
+      <h3>God of War</h3>
+      <p>Kratos sets out on a journey with his son Atreus through Norse mythology. A story of redemption, gods, and brutal combat.</p>
+       <div class="price-button-wrap">
+    <button class="price-btn">₹1,999</button>
+  </div>
+    </div>
+
+    <div class="game-card">
+      <a href="https://www.rockstargames.com/gta-v" target="_blank">
+      <img src="https://images5.alphacoders.com/319/thumbbig-319730.webp" alt="GTA V">
+    </a>
+      <h3>GTA V</h3>
+      <p>An open-world action game where you explore Los Santos, complete missions, and live the criminal life as three unique characters.</p>
+       <div class="price-button-wrap">
+    <button class="price-btn">₹1,499</button>
+  </div>
+    </div>
+
+    <div class="game-card">
+      <a href="https://www.fortnite.com/" target="_blank">
+      <img src="https://images4.alphacoders.com/889/thumbbig-889823.webp" alt="Fortnite">
+    </a>
+      <h3>Fortnite</h3>
+      <p>A fast-paced battle royale game known for its colorful graphics, creative building mechanics, and exciting events.</p>
+       <div class="price-button-wrap">
+    <button class="price-btn">₹1,099</button>
+  </div>
+    </div>
+
+    <div class="game-card">
+      <a href="https://www.minecraft.net/en-us" target="_blank">
+      <img src="https://images.alphacoders.com/135/thumbbig-1353837.webp">
+    </a>
+      <h3>Minecraft</h3>
+      <p>Explore a blocky world of creativity and survival. Build, mine, and battle in a sandbox that’s loved by millions.</p>
+       <div class="price-button-wrap">
+    <button class="price-btn">₹999</button>
+  </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Movies Section -->
+  <!-- MOVIES DASHBOARD -->
+<section id="movies" class="section">
+  <h2 style="text-align:center; margin-bottom: 20px;">🎬 Popular Movies</h2>
+
+  <div class="movies-column">
+    <div class="movie-card">
+      <img src="https://images4.alphacoders.com/975/thumbbig-975508.webp" alt="Avengers Endgame">
+      <h3>Avengers: Endgame</h3>
+      <p>The Avengers unite for one last stand against Thanos in this epic finale filled with emotion, action, and heroism.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹199</button>
+      </div>
+    </div>
+
+    <div class="movie-card">
+      <img src="https://images7.alphacoders.com/116/thumbbig-1167489.webp">
+      <h3>Shershaah</h3>
+      <p>Based on the true story of Captain Vikram Batra, a hero of the Kargil War. A patriotic and emotional rollercoaster.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹99</button>
+      </div>
+    </div>
+
+    <div class="movie-card">
+      <img src="https://wallpapers.com/images/hd/kgf-4k-2-rocky-dragging-rope-scwvclxiilx9g365.jpg">
+      <h3>KGF: Chapter 2</h3>
+      <p>Rocky returns to dominate the underworld in this high-octane action blockbuster with intense drama and visuals.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹149</button>
+      </div>
+    </div>
+
+    <div class="movie-card">
+      <img src="https://i.ytimg.com/vi/xUVh_av-BJQ/maxresdefault.jpg">
+      <h3>Jawan</h3>
+      <p>Shah Rukh Khan delivers a power-packed performance in this stylish action-thriller with social themes.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹179</button>
+      </div>
+    </div>
+
+    <div class="movie-card">
+      <img src="https://i.ytimg.com/vi/-rMvyYMnK3c/maxresdefault.jpg" alt="Pathaan">
+      <h3>Pathaan</h3>
+      <p>A RAW agent returns from exile to save the country. Stylish stunts, global missions, and SRK in top form.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹139</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Laptop Section -->
+  <!-- LAPTOPS DASHBOARD -->
+<section id="laptop" class="section">
+  <h2 style="text-align:center; margin-bottom: 20px;">💻 Best Laptops</h2>
+
+  <div class="laptop-column">
+    <div class="laptop-card">
+      <img src="https://photo2.tinhte.vn/data/attachment-files/2023/01/6292859_cover_apple.jpg" alt="MacBook Air M2">
+      <h3>Apple MacBook Air M2</h3>
+      <p>Super-fast M2 chip, ultra-slim design, and all-day battery life. Ideal for students and professionals.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹1,04,900</button>
+      </div>
+    </div>
+
+    <div class="laptop-card">
+      <img src="https://m.media-amazon.com/images/I/61s1d1AhQwL._SY450_.jpg">
+      <h3>Dell XPS 13</h3>
+      <p>13.4” InfinityEdge display, Intel Core i7, sleek build, and amazing productivity for office or design work.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹99,990</button>
+      </div>
+    </div>
+
+    <div class="laptop-card">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.SaKRaI-a1QnypaktVMGPrgHaFj?pid=Api&P=0&h=180">
+      <h3>HP Pavilion 15</h3>
+      <p>Ryzen 5, fast SSD, good battery, and full HD display — best budget performer for students and home use.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹55,990</button>
+      </div>
+    </div>
+
+    <div class="laptop-card">
+      <img src="https://m.media-amazon.com/images/I/71uPoxSrtQL._SL1500_.jpg">
+      <h3>ASUS ROG Zephyrus G14</h3>
+      <p>High-end AMD CPU + RTX GPU, compact gaming beast with RGB keyboard and crisp display.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹1,29,990</button>
+      </div>
+    </div>
+
+    <div class="laptop-card">
+      <img src="https://m.media-amazon.com/images/I/61q6x-ll5FL._SL1000_.jpg">
+      <h3>Lenovo IdeaPad Slim 5</h3>
+      <p>Intel Core i5, fingerprint reader, and sleek metal design — perfect balance of price and productivity.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹61,990</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- TV Section -->
+  <!-- TV DASHBOARD -->
+<section id="tv" class="section">
+  <h2 style="text-align:center; margin-bottom: 20px;">📺 Top Smart TVs</h2>
+
+  <div class="tv-column">
+    <div class="tv-card">
+      <img src="https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6537/6537372_sd.jpg" alt="Samsung Crystal 4K">
+      <h3>Samsung Crystal 4K UHD</h3>
+      <p>Ultra HD 43-inch Smart TV with PurColor, HDR support and voice assistant. Great for movies and gaming.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹31,990</button>
+      </div>
+    </div>
+
+    <div class="tv-card">
+      <img src="https://m.media-amazon.com/images/I/81aMS6p4xlL.jpg">
+      <h3>Sony Bravia 55” 4K HDR</h3>
+      <p>One of the best Android TVs with powerful X1 processor, Dolby Vision and cinematic sound system.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹62,990</button>
+      </div>
+    </div>
+
+    <div class="tv-card">
+      <img src="https://tse2.mm.bing.net/th/id/OIP.XzV7F94iHnixb_13YSS8gAHaEK?pid=Api&P=0&h=180" alt="Mi TV 5X 50">
+      <h3>Mi TV 5X 50” 4K LED</h3>
+      <p>Bezel-less design, Android 10, Dolby Audio & Vision. Great value-for-money 4K smart TV.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹38,999</button>
+      </div>
+    </div>
+
+    <div class="tv-card">
+      <img src="https://m.media-amazon.com/images/I/71RkWGWWrjL._AC_UY327_FMwebp_QL65_.jpg" alt="LG 43” 4K">
+      <h3>LG 43” 4K UHD Smart TV</h3>
+      <p>WebOS with AI ThinQ, Alexa support, and dynamic color enhancement. Great sound & display quality.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹34,990</button>
+      </div>
+    </div>
+
+    <div class="tv-card">
+      <img src="https://m.media-amazon.com/images/I/81d38-89jkL._AC_UY327_FMwebp_QL65_.jpg">
+      <h3>OnePlus Y1S Pro 43”</h3>
+      <p>Brilliant 4K panel with OxygenPlay, Dolby Atmos, HDR10+ and seamless smart connectivity.</p>
+      <div class="price-button-wrap">
+        <button class="price-btn">₹29,999</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Account Section -->
+ <section id="account" class="section dashboard-section">
+  <h2>👤 Your Account</h2>
+
+  <div class="account-container">
+    
+    <!-- Profile Info -->
+    <div class="account-card">
+      <h3>👤 Profile</h3>
+      <p><strong>Name:</strong> Nirmal Goswami</p>
+      <p><strong>Email:</strong> nirmalgoswami9027@gmail.com</p>
+      <p><strong>Phone:</strong> +91-90279xxxxx</p>
+      <p><strong>Member Since:</strong> Jan 2024</p>
+    </div>
+
+    <!-- Order History -->
+    <div class="account-card">
+      <h3>🧾 Order History</h3>
+      <ul>
+        <li>📦 Sony Bravia TV — ₹62,990 <span class="tag delivered">Delivered</span></li>
+        <li>🎮 GTA 5 — ₹1,499 <span class="tag pending">Pending</span></li>
+        <li>💻 HP Laptop — ₹54,999 <span class="tag shipped">Shipped</span></li>
+      </ul>
+    </div>
+
+    <!-- Settings -->
+    <div class="account-card">
+      <h3>⚙️ Account Settings</h3>
+      <button class="account-btn" onclick="showTab('edit-profile')">Edit Profile</button>
+      <section id="edit-profile" class="section dashboard-section">
+  <h2>✏️ Edit Your Profile</h2>
+
+  <div class="account-card">
+    <label for="name">Full Name:</label><br>
+    <input type="text" id="name" value="Nirmal Goswami"><br><br>
+
+    <label for="email">Email Address:</label><br>
+    <input type="email" id="email" value="nirmalgoswami9027@gmail.com"><br><br>
+
+    <label for="phone">Phone Number:</label><br>
+    <input type="tel" id="phone" value="+91-90279xxxxx"><br><br>
+
+    <div style="margin-top: 15px;">
+      <button class="account-btn" onclick="saveProfile()">💾 Save Changes</button>
+      <button class="account-btn" onclick="showTab('account')">🔙 Back to Account</button>
+    </div>
+  </div>
+</section>
+
+<button class="account-btn" onclick="alert('Change Password clicked')">Change Password</button>
+<button class="account-btn" onclick="alert('Manage Notifications clicked')">Manage Notifications</button>
+</div>
+
+    <!-- Payment Methods -->
+    <div class="account-card">
+      <h3>💳 Payment Methods</h3>
+      <p>💳 HDFC Bank Credit Card - **** 2345</p>
+      <p>🏦 UPI - nirmal@oksbi</p>
+      <button class="account-btn">Add New Method</button>
+    </div>
+
+    <!-- Addresses -->
+    <div class="account-card">
+      <h3>🏠 Saved Addresses</h3>
+      <p>📍 123, Rohini, Delhi - 110085</p>
+      <p>📍 88, Sector 5, Noida - 201301</p>
+      <button class="account-btn">Add Address</button>
+    </div>
+
+    <!-- Help & Logout -->
+    <div class="account-card">
+      <h3>❓ Need Help?</h3>
+      <button class="account-btn">Contact Support</button>
+      <button class="account-btn logout" id="logout">Logout</button>
+    </div>
+
+  </div>
+</section>
+
+
+ 
+
+
+    <!-- footer -->
+  <footer>
+      &copy; 2025 Your Company Name. All rights reserved.
+    </footer>
+     <!-- JavaScript to toggle image display --><script> 
+  function showTab(id, btn) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+
+    // Show selected section
+    const target = document.getElementById(id);
+    if (target) {
+      target.classList.add('active');
+
+      // Highlight active nav button (only if it's a nav button)
+      document.querySelectorAll('.nav-buttons button').forEach(b => b.classList.remove('active-button'));
+      if (btn) btn.classList.add('active-button');
+
+      // Smooth scroll to section
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+  }
+
+  // ✅ Function to simulate profile update
+  function saveProfile() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+
+    // Simple alert for confirmation (can be replaced with database save logic)
+    alert("✅ Profile updated!\n\nName: " + name + "\nEmail: " + email + "\nPhone: " + phone);
+
+    // Optional: Navigate back to account dashboard
+    showTab('account');
+  }
+
+  // ✅ Run on page load
+  window.onload = () => {
+    const homeBtn = document.getElementById('homeBtn');
+    showTab('home', homeBtn);
+
+    // ✅ Logout button event
+    const logoutBtn = document.getElementById('logout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", function () {
+        window.location.href = "../login3d.html";
+      });
+    }
+  };
+</script>
+
+</body>
+</html>
